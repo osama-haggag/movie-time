@@ -39,8 +39,9 @@ def _extract_year_from_movie_title(movie_title):
     return int(matches[0])
 
 
-def _gather_dataset(avg_movie_ratings, tags_per_movie):
-    dataset = pd.merge(avg_movie_ratings, tags_per_movie, on='movieId', how='left')
+def _gather_dataset(movie_names, avg_movie_ratings, tags_per_movie):
+    movies_with_ratings = pd.merge(movie_names, avg_movie_ratings, on='movieId')
+    dataset = pd.merge(movies_with_ratings, tags_per_movie, on='movieId', how='left')
     dataset['year'] = dataset.title.apply(_extract_year_from_movie_title)
     return dataset
 
@@ -67,7 +68,7 @@ def _calculate_movie_similarity(dataset, vectorized):
 def movie_to_movie(genome_scores, genome_tags, movie_names, movie_ratings):
     tags_per_movie = _get_tags_per_movie(genome_scores, genome_tags)
     avg_movie_ratings = _calculate_avg_movie_ratings(movie_ratings)
-    dataset = _gather_dataset(avg_movie_ratings, tags_per_movie)
+    dataset = _gather_dataset(movie_names, avg_movie_ratings, tags_per_movie)
     vectorized = _vectorize_dataset(dataset)
     movie_to_movie_matrix = _calculate_movie_similarity(dataset, vectorized)
     return movie_to_movie_matrix
