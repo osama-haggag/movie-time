@@ -14,7 +14,7 @@ class Movie(models.Model):
 class Similarity(models.Model):
     first_movie = models.ForeignKey(Movie, related_name='first_movie')
     second_movie = models.ForeignKey(Movie, related_name='second_movie')
-    similary_score = models.FloatField()
+    similarity_score = models.FloatField()
 
 
 class Tag(models.Model):
