@@ -16,10 +16,11 @@ def _concatenate_tags_of_movie(tags):
 def _get_tags_per_movie(genome_scores, genome_tags):
     relevant_tags = genome_scores[genome_scores.relevance > RELEVANCE_CUTOFF][['movieId', 'tagId']]
     movie_id_to_relevant_tags = pd.merge(relevant_tags, genome_tags, on='tagId', how='left')[['movieId', 'tagId']]
+    movie_id_to_relevant_tags['tagId'] = movie_id_to_relevant_tags.tagId.astype(str)
     relevant_tags_per_movie = movie_id_to_relevant_tags.groupby('movieId')['tagId'].agg({
         'movie_tags': _concatenate_tags_of_movie
     })
-    return relevant_tags_per_movie.reset_index(level=1)
+    return relevant_tags_per_movie.reset_index()
 
 
 def _calculate_avg_movie_ratings(movie_ratings):
@@ -27,7 +28,7 @@ def _calculate_avg_movie_ratings(movie_ratings):
         'rating_mean': 'mean',
         'rating_median': 'median'
     })
-    return avg_ratings.reset_index(level=1)
+    return avg_ratings.reset_index()
 
 
 def _extract_year_from_movie_title(movie_title):
@@ -42,8 +43,14 @@ def _extract_year_from_movie_title(movie_title):
 def _gather_dataset(movie_names, avg_movie_ratings, tags_per_movie):
     movies_with_ratings = pd.merge(movie_names, avg_movie_ratings, on='movieId')
     dataset = pd.merge(movies_with_ratings, tags_per_movie, on='movieId', how='left')
+
     dataset['year'] = dataset.title.apply(_extract_year_from_movie_title)
-    return dataset
+
+    movies_with_tags_mask = dataset.movie_tags.notnull()
+    movies_without_ratings_mask = dataset.movie_tags.isnull()
+    dataset_with_tags = dataset[movies_with_tags_mask].reset_index(drop=True)
+    unrelatable_movies = dataset[(~movies_with_tags_mask) | (movies_without_ratings_mask)]
+    return dataset_with_tags, unrelatable_movies
 
 
 def _vectorize_dataset(dataset):
@@ -68,7 +75,7 @@ def _calculate_movie_similarity(dataset, vectorized):
 def movie_to_movie(genome_scores, genome_tags, movie_names, movie_ratings):
     tags_per_movie = _get_tags_per_movie(genome_scores, genome_tags)
     avg_movie_ratings = _calculate_avg_movie_ratings(movie_ratings)
-    dataset = _gather_dataset(movie_names, avg_movie_ratings, tags_per_movie)
-    vectorized = _vectorize_dataset(dataset)
-    movie_to_movie_matrix = _calculate_movie_similarity(dataset, vectorized)
-    return movie_to_movie_matrix
+    dataset_with_tags, unrelatable_movies = _gather_dataset(movie_names, avg_movie_ratings, tags_per_movie)
+    vectorized = _vectorize_dataset(dataset_with_tags)
+    movie_to_movie_matrix = _calculate_movie_similarity(dataset_with_tags, vectorized)
+    return movie_to_movie_matrix, unrelatable_movies
