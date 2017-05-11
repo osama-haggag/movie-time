@@ -9,6 +9,7 @@ class Movie(models.Model):
     genres = models.CharField(max_length=200)
     rating_median = models.FloatField()
     rating_mean = models.FloatField()
+    relatable = models.BooleanField(default=True)
 
 
 class Similarity(models.Model):
