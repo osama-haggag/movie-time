@@ -7,9 +7,9 @@ class Movie(models.Model):
     poster = models.ImageField(null=True, blank=True)
     year = models.IntegerField()
     genres = models.CharField(max_length=200)
-    num_ratings = models.IntegerField()
-    rating_median = models.FloatField()
-    rating_mean = models.FloatField()
+    num_ratings = models.IntegerField(null=True)
+    rating_median = models.FloatField(null=True)
+    rating_mean = models.FloatField(null=True)
     relatable = models.BooleanField(default=True)
 
 
