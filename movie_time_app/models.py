@@ -5,7 +5,7 @@ class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=200)
     poster = models.ImageField(null=True, blank=True)
-    year = models.IntegerField()
+    year = models.IntegerField(null=True)
     genres = models.CharField(max_length=200)
     num_ratings = models.IntegerField(null=True)
     rating_median = models.FloatField(null=True)
