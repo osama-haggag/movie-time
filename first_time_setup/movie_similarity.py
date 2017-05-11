@@ -71,7 +71,7 @@ def _match_indices_and_columns_to_ids(dataset, movie_to_movie_matrix):
 
 def _stack_matrix_to_db_model(movie_to_movie_matrix):
     movie_to_movie_stacked = movie_to_movie_matrix.stack().reset_index()
-    movie_to_movie_stacked.columns = ['first_movie', 'second_movie', 'similarity_score']
+    movie_to_movie_stacked.columns = ['first_movie_id', 'second_movie_id', 'similarity_score']
     return movie_to_movie_stacked
 
 

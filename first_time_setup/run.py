@@ -87,6 +87,10 @@ def _populate_database_tables(db_connection, movie_to_movie_similarity, dataset_
     print("writing online links to DB...")
     links.to_sql('movie_time_app_onlinelink', db_connection, if_exists='append', index=False)
 
+    print("writing movie similarities to DB...")
+    movie_to_movie_similarity.to_sql('movie_time_app_similarity', db_connection, if_exists='append',
+                                     index=False, chunksize=50000)
+
 
 def main(input_dataset_path, database_path):
     genome_scores, genome_tags, movie_names, movie_ratings, links_to_imdb = _load_dataset(input_dataset_path)
