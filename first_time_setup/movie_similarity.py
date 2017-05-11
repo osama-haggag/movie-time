@@ -26,7 +26,8 @@ def _get_tags_per_movie(genome_scores, genome_tags):
 def _calculate_avg_movie_ratings(movie_ratings):
     avg_ratings = movie_ratings.groupby('movieId')['rating'].agg({
         'rating_mean': 'mean',
-        'rating_median': 'median'
+        'rating_median': 'median',
+        'num_ratings': 'size'
     })
     return avg_ratings.reset_index()
 
@@ -41,10 +42,12 @@ def _extract_year_from_movie_title(movie_title):
 
 
 def _gather_dataset(movie_names, avg_movie_ratings, tags_per_movie):
+    print("merging files into one dataset dataframe...")
     movies_with_ratings = pd.merge(movie_names, avg_movie_ratings, on='movieId')
     dataset = pd.merge(movies_with_ratings, tags_per_movie, on='movieId', how='left')
 
     dataset['year'] = dataset.title.apply(_extract_year_from_movie_title)
+    dataset.rename(columns={'movieId': 'movie_id'}, inplace=True)
 
     movies_with_tags_mask = dataset.movie_tags.notnull()
     movies_without_ratings_mask = dataset.movie_tags.isnull()
@@ -59,17 +62,25 @@ def _vectorize_dataset(dataset):
     return movies_tfidf_vectorized
 
 
-def _match_indices_and_columns_to_ids(dataset, movie_to_movie):
-    index_to_movie_id = dataset['movieId']
-    movie_to_movie.columns = [str(index_to_movie_id[int(col)]) for col in movie_to_movie.columns]
-    movie_to_movie.index = [index_to_movie_id[idx] for idx in movie_to_movie.index]
-    return movie_to_movie
+def _match_indices_and_columns_to_ids(dataset, movie_to_movie_matrix):
+    index_to_movie_id = dataset['movie_id']
+    movie_to_movie_matrix.columns = [str(index_to_movie_id[int(col)]) for col in movie_to_movie_matrix.columns]
+    movie_to_movie_matrix.index = [index_to_movie_id[idx] for idx in movie_to_movie_matrix.index]
+    return movie_to_movie_matrix
+
+
+def _stack_matrix_to_db_model(movie_to_movie_matrix):
+    movie_to_movie_stacked = movie_to_movie_matrix.stack().reset_index()
+    movie_to_movie_stacked.columns = ['first_movie', 'second_movie', 'similarity_score']
+    return movie_to_movie_stacked
 
 
 def _calculate_movie_similarity(dataset, vectorized):
-    movie_to_movie = pd.DataFrame(cosine_similarity(vectorized))
-    movie_to_movie = _match_indices_and_columns_to_ids(dataset, movie_to_movie)
-    return movie_to_movie
+    print("calculating movie to movie similarity...")
+    movie_to_movie_matrix = pd.DataFrame(cosine_similarity(vectorized))
+    movie_to_movie_matrix = _match_indices_and_columns_to_ids(dataset, movie_to_movie_matrix)
+    movie_to_movie_stacked = _stack_matrix_to_db_model(movie_to_movie_matrix)
+    return movie_to_movie_stacked
 
 
 def movie_to_movie(genome_scores, genome_tags, movie_names, movie_ratings):
@@ -77,5 +88,5 @@ def movie_to_movie(genome_scores, genome_tags, movie_names, movie_ratings):
     avg_movie_ratings = _calculate_avg_movie_ratings(movie_ratings)
     dataset_with_tags, unrelatable_movies = _gather_dataset(movie_names, avg_movie_ratings, tags_per_movie)
     vectorized = _vectorize_dataset(dataset_with_tags)
-    movie_to_movie_matrix = _calculate_movie_similarity(dataset_with_tags, vectorized)
-    return movie_to_movie_matrix, unrelatable_movies
+    movie_to_movie_similarity = _calculate_movie_similarity(dataset_with_tags, vectorized)
+    return movie_to_movie_similarity, dataset_with_tags, unrelatable_movies
