@@ -26,5 +26,5 @@ class Tag(models.Model):
 
 
 class OnlineLink(models.Model):
-    movie_id = models.ForeignKey(Movie)
-    imdb_id = models
+    movie = models.ForeignKey(Movie)
+    imdb_id = models.CharField(max_length=50)
