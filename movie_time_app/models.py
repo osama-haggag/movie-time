@@ -23,3 +23,8 @@ class Tag(models.Model):
     movie = models.ForeignKey(Movie)
     tag = models.CharField(max_length=50)
     relevance = models.FloatField()
+
+
+class OnlineLink(models.Model):
+    movie_id = models.ForeignKey(Movie)
+    imdb_id = models
