@@ -1,5 +1,4 @@
 import argparse
-import logging
 import os
 import zipfile
 
@@ -22,7 +21,8 @@ def _load_dataset_from_local_path(input_dataset_path):
     genome_tags = pd.read_csv(os.path.join(input_dataset_path, 'genome-tags.csv'))
     movie_names = pd.read_csv(os.path.join(input_dataset_path, 'movies.csv'))
     links = pd.read_csv(os.path.join(input_dataset_path, 'links.csv'))
-    return genome_scores, genome_tags, movie_names, movie_ratings, links
+    movie_tags_as_text = pd.merge(genome_scores, genome_tags, on='tagId')[['movieId', 'tag', 'relevance']]
+    return genome_scores, genome_tags, movie_names, movie_ratings, links, movie_tags_as_text
 
 
 def _download_data(download_path):
@@ -65,39 +65,59 @@ def _connect_to_database(database_path):
     return db
 
 
-def _conform_to_db_model(dataset_with_tags, unrelatable_movies, links_to_imdb):
+def _conform_to_db_model(dataset_with_tags, unrelatable_movies, links_to_imdb, movie_tags_as_text):
     links_col_order = ['movie_id', 'imdb_id']
     links_to_imdb.rename(columns={'movieId': 'movie_id', 'imdbId': 'imdb_id'}, inplace=True)
+
+    tags_col_order = ['movie_id', 'tag', 'relevance']
+    movie_tags_as_text.rename(columns={'movieId': 'movie_id'}, inplace=True)
 
     dataset_col_order = ['movie_id', 'title', 'year', 'genres', 'num_ratings', 'rating_median', 'rating_mean', 'relatable']
     dataset_with_tags['relatable'] = True
     unrelatable_movies['relatable'] = False
-    return dataset_with_tags[dataset_col_order], unrelatable_movies[dataset_col_order], links_to_imdb[links_col_order]
+    return (dataset_with_tags[dataset_col_order], unrelatable_movies[dataset_col_order],
+            links_to_imdb[links_col_order], movie_tags_as_text[tags_col_order])
 
 
-def _populate_database_tables(db_connection, movie_to_movie_similarity, dataset_with_tags, unrelatable_movies, links_to_imdb):
-    with_tags, without_tags, links = _conform_to_db_model(dataset_with_tags, unrelatable_movies, links_to_imdb)
+def _write_to_db_with_progress_bar(df, table_name, db_connection):
+    total_length = len(df)
+    step = int(total_length / 100)
+
+    with tqdm(total=total_length) as pbar:
+        for i in range(0, total_length, step):
+            subset = df[i: i + step]
+            subset.to_sql(table_name, db_connection, if_exists='append', index=False)
+            pbar.update(step)
+
+
+def _populate_database_tables(db_connection, movie_to_movie_similarity, dataset_with_tags,
+                              unrelatable_movies, links_to_imdb, movie_tags_as_text):
+    with_tags, without_tags, links, tags = _conform_to_db_model(dataset_with_tags, unrelatable_movies,
+                                                                links_to_imdb, movie_tags_as_text)
 
     print("writing movies with tags to DB...")
-    with_tags.to_sql('movie_time_app_movie', db_connection, if_exists='append', index=False)
+    _write_to_db_with_progress_bar(with_tags, 'movie_time_app_movie', db_connection)
 
     print("writing movies without tags to DB...")
-    without_tags.to_sql('movie_time_app_movie', db_connection, if_exists='append', index=False)
+    _write_to_db_with_progress_bar(without_tags, 'movie_time_app_movie', db_connection)
 
     print("writing online links to DB...")
-    links.to_sql('movie_time_app_onlinelink', db_connection, if_exists='append', index=False)
+    _write_to_db_with_progress_bar(links, 'movie_time_app_onlinelink', db_connection)
+
+    print("writing movie tags to DB...")
+    _write_to_db_with_progress_bar(tags, 'movie_time_app_tag', db_connection)
 
     print("writing movie similarities to DB...")
-    movie_to_movie_similarity.to_sql('movie_time_app_similarity', db_connection, if_exists='append',
-                                     index=False, chunksize=50000)
+    _write_to_db_with_progress_bar(movie_to_movie_similarity, 'movie_time_app_similarity', db_connection)
 
 
 def main(input_dataset_path, database_path):
-    genome_scores, genome_tags, movie_names, movie_ratings, links_to_imdb = _load_dataset(input_dataset_path)
+    genome_scores, genome_tags, movie_names, movie_ratings, links_to_imdb, movie_tags_as_text = _load_dataset(input_dataset_path)
     db_connection = _connect_to_database(database_path)
     movie_to_movie_similarity, dataset_with_tags, unrelatable_movies = movie_to_movie(genome_scores, genome_tags,
                                                                                       movie_names, movie_ratings)
-    _populate_database_tables(db_connection, movie_to_movie_similarity, dataset_with_tags, unrelatable_movies, links_to_imdb)
+    _populate_database_tables(db_connection, movie_to_movie_similarity, dataset_with_tags,
+                              unrelatable_movies, links_to_imdb, movie_tags_as_text)
 
 
 if __name__ == "__main__":
