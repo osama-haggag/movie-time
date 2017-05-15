@@ -14,19 +14,20 @@
         </div>
     </div>
     <div id="liked-movies">
+        <h1>Similar to liked and alright movies</h1>
+    </div>
+    <div id="bad-movies">
+        <h1>Similar to non-liked movies</h1>
+    </div>
+    <div id="unrelatable">
+        <h1>Random selection from non-relatable movies</h1>
         <ul id="menu">
-          {% for thing in sent_things %}
+            {% for movie in unrelatable %}
 
-            <li>{{ thing }}</li>
+            <li>{{ movie.title }} {{ movie.movie_id }}</li>
 
           {% endfor %}
         </ul>
-    </div>
-    <div id="bad-movies">
-        <h1>a list element</h1>
-    </div>
-    <div id="unrelatable">
-        <h1>a list element</h1>
     </div>
 </head>
 <body>
