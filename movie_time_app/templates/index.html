@@ -1,0 +1,35 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+	<div id="logo-header" align="center">
+        <div id="img-logo" align="center">
+            <img src="{% static 'logo.png' %}" height="200" width="200">
+        </div>
+        <div id="img-text">
+            <h1>It's movie time!</h1>
+        </div>
+    </div>
+    <div id="liked-movies">
+        <ul id="menu">
+          {% for thing in sent_things %}
+
+            <li>{{ thing }}</li>
+
+          {% endfor %}
+        </ul>
+    </div>
+    <div id="bad-movies">
+        <h1>a list element</h1>
+    </div>
+    <div id="unrelatable">
+        <h1>a list element</h1>
+    </div>
+</head>
+<body>
+
+</body>
+</html>
