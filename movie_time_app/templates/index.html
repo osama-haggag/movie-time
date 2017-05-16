@@ -5,12 +5,17 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
 
-	<div id="logo-header" align="center">
+    <div id="logo-header" align="center">
         <div id="img-logo" align="center">
             <img src="{% static 'logo.png' %}" height="200" width="200">
         </div>
-        <div id="img-text">
-            <h1>It's movie time!</h1>
+        <div id="search-bar" align="center">
+            <form id="searchform" method="get" accept-charset="utf-8">
+                <input class="searchfield" id="searchbox" name="search_query" type="text" placeholder="Search">
+                <button class="searchbutton" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
         </div>
     </div>
     <div id="liked-movies">
@@ -26,7 +31,7 @@
 
             <li>{{ movie.title }} {{ movie.movie_id }}</li>
 
-          {% endfor %}
+            {% endfor %}
         </ul>
     </div>
 </head>

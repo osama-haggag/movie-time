@@ -11,6 +11,13 @@ class Movie(models.Model):
     rating_median = models.FloatField(null=True)
     rating_mean = models.FloatField(null=True)
     relatable = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+
+class LikedOrNot(models.Model):
+    movie = models.ForeignKey(Movie)
     liked_or_not = models.SmallIntegerField(null=True, blank=True,
                                             choices=((-1, "bad"), (0, "alright"), (1, "liked")))
 
