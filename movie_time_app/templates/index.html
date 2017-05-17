@@ -18,18 +18,18 @@
             </form>
         </div>
     </div>
-    <div id="liked-movies">
-        <h1>Similar to liked and alright movies</h1>
+    <div id="similar-to-liked">
+        <h1>Similar to movies you liked!</h1>
     </div>
-    <div id="bad-movies">
-        <h1>Similar to non-liked movies</h1>
+    <div id="similar-to-not-liked">
+        <h1>Let some of these surprise you!</h1>
     </div>
     <div id="unrelatable">
-        <h1>Random selection from non-relatable movies</h1>
+        <h1>What's life without a little adventure?</h1>
         <ul id="menu">
             {% for movie in unrelatable %}
 
-            <li>{{ movie.title }} {{ movie.movie_id }}</li>
+            <li><a href="/{{ movie.movie_id }}/"> {{ movie.title }}</li><br>
 
             {% endfor %}
         </ul>
