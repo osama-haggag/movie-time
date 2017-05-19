@@ -10,9 +10,9 @@ def load_unrelatable_movies(n):
 def _get_similar_movies(movies):
     top_movies = []
     for movie in movies:
-        similar_movies = Similarity.objects.filter(
-            first_movie=movie.movie_id,
-            second_movie__movie_id__in).order_by('similarity_score')[:TOP_N]
+        # similar_movies = Similarity.objects.filter(
+        #     first_movie=movie.movie_id,
+        #     second_movie__movie_id__in).order_by('similarity_score')[:TOP_N]
 
         top_movies.append(Movie.objects.filter())
 
