@@ -1,14 +1,18 @@
-from movie_time_app.models import Movie
+from movie_time_app.models import Movie, OnlineLink
 
 DETAIL_TEMPLATE_NAME = 'movie_detail.html'
 
 
 def _prepare_context(movie_object):
+    links = OnlineLink.objects.get(movie_id=movie_object.movie_id)
     context = {
         'movie': {
             'name': movie_object.title,
-            'genres': movie_object.genres.split('|'),
-            'rating': movie_object.rating_mean
+            'movielens_rating': movie_object.rating_mean,
+            'movielens_num_ratings': movie_object.num_ratings
+        },
+        'links': {
+            'imdb': links.imdb_id
         }
     }
     return context

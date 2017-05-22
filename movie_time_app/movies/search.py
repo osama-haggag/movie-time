@@ -30,6 +30,6 @@ def _filter_for_query(query):
 
 
 def search_for_query(request):
-    query = request.get('search_query')
+    query = request.get('q')
     result = _filter_for_query(query)
     return result, SEARCH_TEMPLATE_NAME

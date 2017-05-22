@@ -5,8 +5,9 @@
 <head>
     <h1>{{ movie.name }}:</h1>
     <div id="movie_detail">
-        {{ movie.genres }}<br>
-        {{ movie.rating }}
+        Rating: {{ movie.movielens_rating }}<br>
+        By {{ movie.movielens_num_ratings }} users<br>
+        IMDB: <a href="http://www.imdb.com/title/tt{{ links.imdb }}">{{ links.imdb }}</a>
     </div>
 </head>
 <body>

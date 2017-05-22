@@ -10,8 +10,8 @@
             <img src="{% static 'logo.png' %}" height="200" width="200">
         </div>
         <div id="search-bar" align="center">
-            <form id="searchform" method="get" accept-charset="utf-8">
-                <input class="searchfield" id="searchbox" name="search_query" type="text" placeholder="Search">
+            <form id="searchform" method="get" accept-charset="utf-8" action="/search/">
+                <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
                 <button class="searchbutton" type="submit">
                     <i class="fa fa-search"></i>
                 </button>
