@@ -1,29 +1,25 @@
-from movie_time_app.models import Movie, LikedOrNot, Similarity
+from movie_time_app.models import Movie, Similarity
 
-
-TOP_N = 10
 
 def load_unrelatable_movies(n):
     return Movie.objects.filter(relatable=False).order_by('?')[:n]
 
 
-def _get_similar_movies(movies):
-    top_movies = []
-    for movie in movies:
-        similar_movies = Similarity.objects.filter(first_movie=movie.movie_id)
-        unseen_similar_movies = similar_movies.filter(movie_id__not_in=movies).order_by('similarity_score')[:TOP_N]
-        top_movies.append(unseen_similar_movies)
-    return top_movies
+def _filter_movies(similarities, n):
+    similar_movies = []
+    for similarity in similarities[:n]:
+        similar_movie = similarity.second_movie
+        similar_movies.append((similar_movie.title, similar_movie.movie_id))
+    return similar_movies
 
 
-def _load_similar_to_liked_movies():
-    liked_movies = LikedOrNot.objects.all().order_by('?')
-    similar_movies = _get_similar_movies(liked_movies)
-    print(similar_movies)
+def load_similar_movies(movie, n):
+    similarities = Similarity.objects.filter(
+        first_movie=movie.movie_id,
+        second_movie__liked_or_not=None
+    ).exclude(
+        second_movie__movie_id=movie.movie_id
+    ).order_by('-similarity_score')
 
-
-    #movies = Movie.objects.filter(relatable=True).order_by('')
-
-
-def load_recommendations():
-    similar_movies = _load_similar_to_liked_movies()
+    relevant_similar_movies = _filter_movies(similarities, n)
+    return relevant_similar_movies
