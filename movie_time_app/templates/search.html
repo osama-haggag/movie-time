@@ -1,0 +1,18 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <h1>Search results:</h1>
+    <div id="results">
+        <ul id="list_of_results">
+            {% for movie in search_results %}
+            <a href="/{{ movie.movie_id }}/"> {{ movie.title }}</a><br>
+            {% endfor %}
+        </ul>
+    </div>
+</head>
+<body>
+
+</body>
+</html>

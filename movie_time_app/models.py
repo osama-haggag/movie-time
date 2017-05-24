@@ -11,6 +11,10 @@ class Movie(models.Model):
     rating_median = models.FloatField(null=True)
     rating_mean = models.FloatField(null=True)
     relatable = models.BooleanField(default=True)
+    liked_or_not = models.NullBooleanField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title
 
 
 class Similarity(models.Model):
