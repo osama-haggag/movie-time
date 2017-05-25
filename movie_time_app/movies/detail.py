@@ -14,6 +14,7 @@ def _prepare_context(movie_object, similar_movies):
             'movielens_rating': movie_object.rating_mean,
             'movielens_num_ratings': movie_object.num_ratings,
             'liked_or_not': movie_object.liked_or_not,
+            'relatable': movie_object.relatable
         },
         'links': {
             'imdb': links.imdb_id

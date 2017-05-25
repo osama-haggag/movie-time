@@ -22,10 +22,14 @@
         </form>
         <br>
         <br>
+        {% if movie.relatable %}
         Similar movies you have not yet watched:<br>
         {% for movie_title, movie_id in similarities %}
-        <a href="/{{ movie_id }}/"> {{ movie_title }}<br>
+        <a href="/{{ movie_id }}/"> {{ movie_title }}</a><br>
         {% endfor %}
+        {% else %}
+        Unfortunately this movie has no tags and cannot be related to other movies
+        {% endif %}
     </div>
 </head>
 <body>

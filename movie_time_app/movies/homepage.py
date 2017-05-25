@@ -8,7 +8,7 @@ def _get_similar_movies(movies):
     all_similar_movies = []
     for movie in movies:
         all_similar_movies.extend(load_similar_movies(movie, TOP_N))
-    movie_ids = [movie_id for movie_title, movie_id in all_similar_movies]
+    movie_ids = [movie_id for _, movie_id in all_similar_movies]
     return Movie.objects.filter(movie_id__in=movie_ids)
 
 
