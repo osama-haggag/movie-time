@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <form id="go_back" method="get" accept-charset="utf-8" action="/">
+        <button type="submit" name="back">Go back</button>
+    </form>
     <h1>{{ movie.name }}:</h1>
     <div id="movie_detail">
         Rating: {{ movie.movielens_rating|floatformat:2 }} by {{ movie.movielens_num_ratings }} users<br>
