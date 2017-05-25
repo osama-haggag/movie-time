@@ -1,4 +1,5 @@
-# Movie Time
+![](/movie_time_app/static/logo.png)
+
 A movie recommendation system based on the GroupLens dataset of MovieLens data.
 The dataset contains about 40,000 movies, and around 11,000 of those have tags
 associated with them and could be related to one another.
@@ -65,7 +66,7 @@ In the detail view it only shows the 40 most similar movies to the selected movi
     
 ## How it works
 The "science" behind the system can be found in the 
-[investigation notebook](https://github.com/osama-haggag/movie-time/blob/master/movie_time_investigation.ipynb)
+[investigation notebook](/movie_time_investigation.ipynb)
 
 Recommendations on the homepage are presented in 3 categories, 2 of which are based on the calculated movie-to-movie similarity using
 the provided genome tags.
