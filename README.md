@@ -10,6 +10,18 @@ random recommendations from the other 29,000 unrelatable movies.
 ## Installation
 
 ### Virtual Environment
+**0- Install python virtual env**
+
+On ubuntu:
+
+    $ apt-get install virtualenvwrapper
+
+or via pip (for Linux, Mac and Linux subsystem for Windows) given you have python installed:
+   
+    $ pip install virtualenv virtualenvwrapper
+    
+Reset your terminal and the commands below should be available to use
+
 **1- Create a *python 3* virtualenv for the project**
 
     $ mkvirtualenv movie-time -p /usr/bin/python3
