@@ -7,6 +7,8 @@ associated with them and could be related to one another.
 Movie Time uses these tagged movies to relate them to each other, and presents
 random recommendations from the other 29,000 unrelatable movies.
 
+[Screenshots!](https://imgur.com/a/cH3cs)
+
 ## Installation
 
 ### Virtual Environment
