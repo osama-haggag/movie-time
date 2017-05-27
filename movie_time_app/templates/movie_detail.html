@@ -12,6 +12,7 @@
     <h1>{{ movie.name }}:</h1>
     <div id="movie_detail">
         Rating: {{ movie.movielens_rating|floatformat:2 }} by {{ movie.movielens_num_ratings }} users<br>
+        Top 10 Tags: {{ movie.tags }}<br>
         {% if movie.liked_or_not is True %}
         You LIKED this movie
         {% elif movie.liked_or_not is False %}
