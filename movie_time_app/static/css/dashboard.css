@@ -1,0 +1,86 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar-dashboard {
+    height: 300px;
+    width: 100%;
+    background-color: #311552;
+}
+
+.category-title {
+    color: #fff;
+    font-size: 26px;
+    position: relative;
+    top: 20px;
+    margin-left: 30px;
+    display: inline;
+}
+
+.search_bar {
+    float: right;
+    margin-top: 20px;
+    position: relative;
+    margin-right: 40px;
+    outline-width: 0;
+    height: 30px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.movieStats {
+    /* display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; */
+    text-align: center;
+    margin: 100px auto;
+}
+
+.movieStats tr td {
+    padding: 0px 120px;
+    font-size: 35px;
+}
+
+.statDescription td {
+    font-size: 7px !important;
+    top: -30px !important;
+    position: relative;
+    color: #fff;
+    padding: 0;
+}
+
+.movieStats tr {
+    padding: 0;
+}
+
+.moviesWatched {
+    color: #F7D919;
+}
+
+.browse {
+    text-align: center;
+    font-size: 30px;
+    color: #311552;
+    font-weight: 300;
+}
+.movieContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.movie-poster {
+    margin:20px 20px;
+    height: 250px;
+    width: 175px;
+}
+.movie-poster:hover {
+    cursor: pointer;
+}

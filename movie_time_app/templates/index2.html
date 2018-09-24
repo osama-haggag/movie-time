@@ -1,0 +1,149 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Recommendr</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,700i,900,900i" rel="stylesheet">
+
+    <!-- <script type="module">
+        </script> -->
+</head>
+
+<body>
+    <div class="welcomeContainer">
+        <div class="header">
+            <!-- Logo -->
+            <h1 class="logo">recommendR</h1>
+
+            <!-- Menu Bar -->
+            <ul class="topMenu">
+                <li class="menuList">
+                    <a href="#howContainer" class="hiW">How it Works?</a>
+                    <a href="#" class="about">About Us</a>
+                    <a href="#" class="login">Log In</a>
+                    <a class="loginSeparator">|</a>
+                    <a href="#" class="signup">Sign Up</a>
+                    <button class="getStarted mdc-button mdc-button--raised" id="getStarted">Get Started</button>
+                </li>
+            </ul>
+        </div>
+        <!-- Welcome Text -->
+        <h1 class="welcome-text">
+            Now Let the <span style="color:#492b7b;font-weight:900;">Machine</span> make,<br>your <em>daily</em>
+            choices.
+        </h1>
+    </div>
+
+
+
+    <div class="howContainer" id="howContainer">
+        <div class="howWorks">
+            <h1>How it Works?</h1>
+            <p>(in 3 simple steps)</p>
+        </div>
+
+        <table class="stepTable">
+            <tr>
+                <td rowspan="3">
+                    <div class="steps firstStep mdc-button">
+                        <p class="stepsText">1</p>
+                    </div>
+
+                    <p class="stepsDesc">SignUp</p>
+                </td>
+                <td>
+                    <div class="steps secondStep mdc-button">
+                        <p class="stepsText">2</p>
+                    </div>
+                    <p class="stepsDesc">Choose<br>Categories</p>
+                </td>
+                <td>
+                    <div class="steps thirdStep mdc-button">
+                        <p class="stepsText">3</p>
+                    </div>
+                    <p class="stepsDesc">Add<br>Preferences</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="categoryContainer">
+        <div class="categoryTitle">
+            <p>Because it was never about<br>just <strong>one thing.</strong> </p>
+        </div>
+
+        <table class="categoryTable">
+            <tr>
+                <td>
+                    <div class="catg mdc-button"></div>
+                    <p class="catgName">Movies</p>
+                </td>
+                <td>
+                    <div class="catg mdc-button"></div>
+                    <p class="catgName">Music</p>
+                </td>
+                <td>
+                    <div class="catg mdc-button"></div>
+                    <p class="catgName">Books</p>
+                </td>
+                <td>
+                    <div class="catg mdc-button"></div>
+                    <p class="catgName">Videos</p>
+                </td>
+                <td>
+                    <div class="catg mdc-button"></div>
+                    <p class="catgName">News & Mags</p>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align:center;margin-top:60px;">
+            <div class="mdc-button mdc-button--raised viewAll">
+                View All Categories
+            </div>
+        </div>
+    </div>
+
+    <div class="aboutContainer">
+        <div class="aboutUs">About Us</div>
+        <div class="aboutUsDesc">
+            <div class="aboutTitle">"Helping Users with their Daily Choices"</div>
+            Recommendr is a Web Application which is designed to help user with their daily choices of looking over
+            things on internet. It makes use of the technologies like Machine Learning to understand user requirements
+            and their behaviour; then with the help of Artificial Intelligence it will generate suggestions.
+        </div>
+        <div style="text-align:center;margin-top:60px;">
+            <div class="writeUs mdc-button mdc-button--raised">Write Us</div>
+        </div>
+    </div>
+
+    <div class="signupContainer">
+        <div class="loginSubContainer">
+            <p class="loginHead">Login</p>
+            <input type="text" name="userName" class="inputField userName" placeholder="Username">
+            <input type="password" name="passWord" class="inputField passWord" placeholder="Password"><br>
+            <a href="/" class="loginBtn">Login</a>
+        </div>
+        <div class="signupuserContainer">
+            <p class="signUpHead">Sign Up?</p>
+            <div class="signupsubcontainer">
+                <form method="POST">
+                <input type="text" name="firstName" class="inputField firstName" placeholder="First Name" ><br>
+                <input type="text" name="lasttName" class="inputField lastName" placeholder="Last Name"> <br>
+                <input type="text" name="emailAddress" class="inputField emailAddress" placeholder="Email Address"> <br>
+                <input type="password" name="password" class="inputField usrpass" placeholder="Password"> <br>
+                <input type="password" name="confirmpassword" class="inputField confirmusrpass" placeholder="Confirm Password"><br>
+                <a href="#" class="signupBtn">Sign Up</a>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

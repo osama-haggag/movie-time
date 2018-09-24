@@ -1,0 +1,112 @@
+{% load staticfiles %}
+<html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,700i,900,900i" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <!-- Navigation Dashboard -->
+    <div class="navbar-dashboard">
+        <h1 class="category-title"><span style="color:#F7D919;">movie</span>recommendR</h1>
+        <form id="searchform" method="get" accept-charset="utf-8" action="/search/">
+            <input class="search_bar" id="searchbox" name="q" type="text" placeholder="Look for a movie">
+            <!-- <button class="searchbutton" type="submit">Search</button> -->
+        </form>
+        <!-- <input type="text" name="search" class="search_bar" placeholder="search"> -->
+        <table class="movieStats">
+            <tr>
+                <td>
+                    <h1 class="moviesWatched count">71</h1>
+                </td>
+                <td>
+                    <h1 class="moviesWatched count">88</h1>
+                </td>
+                <td>
+                    <h1 class="moviesWatched count">66</h1>
+                </td>
+                <td>
+                    <h1 class="moviesWatched count">7</h1>
+                </td>
+            </tr>
+            <tr class="statDescription">
+                <td>
+                    <h1>Movies Watched</h1>
+                </td>
+                <td>
+                    <h1>Movies Rated</h1>
+                </td>
+                <td>
+                    <h1>Friend Suggestion</h1>
+                </td>
+                <td>
+                    <h1>New Suggestion</h1>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Browse Heading -->
+    <h1 class="browse">Browse <strong>Movies</strong></h1>
+
+
+    <!-- Movie List -->
+    <div class="movieContainer">
+
+        <!-- movie 1 -->
+        <img src="{% static 'interstellar-poster' %}" class="movie-poster" alt="interstellar-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'conjuring-poster.jpg' %}" class="movie-poster" alt="conjuring-poster">
+        <!-- movie 1 -->
+        <img src="{% static 'Dunkirk-poster.jpg' %}" class="movie-poster" alt="interstellar-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'inception-poster.jpg' %}" class="movie-poster" alt="conjuring-poster">
+        
+        <!-- movie 1 -->
+        <img src="{% static 'shutter-island.jpg' %}" class="movie-poster" alt="interstellar-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'hereditary.jpg' %}" class="movie-poster" alt="conjuring-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'avengers.jpg' %}" class="movie-poster" alt="interstellar-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'karwaan.jpg' %}" class="movie-poster" alt="conjuring-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'fanney-khan.jpg' %}" class="movie-poster" alt="conjuring-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'stree.jpg' %}" class="movie-poster" alt="conjuring-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'znmd.jpg' %}" class="movie-poster" alt="conjuring-poster">
+
+        <!-- movie 1 -->
+        <img src="{% static 'hp.jpg' %}" class="movie-poster" alt="conjuring-poster">
+        
+    </div>
+</body>
+<script>
+    $('.count').each(function () {
+        $(this).prop('Counter', 0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 1500,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
+</script>
+
+</html>

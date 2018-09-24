@@ -1,8 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 
-from movie_time_app.models import Movie
+from movie_time_app.models import Movie,UserDetails
 from movie_time_app.movies.detail import load_movie_detail
 from movie_time_app.movies.homepage import load_homepage_recommendations
 from movie_time_app.movies.search import search_for_query
@@ -31,6 +33,12 @@ def update(request, movie_id):
     movie.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+def registerUser(request):
+    u = UserDetails(fName = request.POST['name'], password = request.POST['password'], email = request.POST['email'])
+    
+    u.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 def index(request):
     liked, not_liked, random = load_homepage_recommendations()
@@ -41,3 +49,55 @@ def index(request):
     }
     response = render(request, 'index.html', context=context)
     return response
+
+def index2(request):
+    response = render(request, 'index3.html')
+    return response
+
+def loginSuccess(request):
+    response = render(request, 'loginSucess.html')
+    return response
+def dashboard(request):
+    response = render(request, 'dashboard.html')
+    return response
+
+
+# def form(request):
+
+    # if request.method == 'POST':
+
+        # form = UserCreationForm(request.POST)
+
+        # if form.is_valid():
+
+            # form.save()
+
+            # username = form.cleaned_data.get('username')
+
+            # raw_password = form.cleaned_data.get('password1')
+
+            # user = authenticate(username=username, password=raw_password)
+
+            # login(request, user)
+
+            # return redirect('home')
+
+    # else:
+
+        # form = UserCreationForm()
+
+    # return render(request, 'signup.html', {'form': form})
+
+# def signup(request):
+#     if request.method == 'POST':
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             username = form.cleaned_data.get('username')
+#             raw_password = form.cleaned_data.get('password1')
+#             user = authenticate(username=username, password=raw_password)
+#             login(request, user)
+#             return redirect('home')
+#     else:
+#         form = UserCreationForm()
+#     return render(request, 'signup.html', {'form': form})

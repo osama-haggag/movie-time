@@ -20,7 +20,7 @@
         </div>
     </div>
     <div id="similar-to-liked">
-        <h1>Similar to movies you liked!</h1>
+        <h1>Top 10 Recommended Movie:</h1>
         <ul id="liked_menu" style="list-style-type:none">
             {% if liked|length == 0 %}
             Like more movies to see recommendations here
@@ -33,29 +33,29 @@
             {% endif %}
         </ul>
     </div>
-    <div id="similar-to-not-liked">
-        <h1>Let some of these surprise you!</h1>
-        <ul id="not_liked_menu" style="list-style-type:none">
-            {% if not_liked|length == 0 %}
-            Dislike movies to see well received similar movies here (maybe they got it right making these movies!)
-            {% else %}
-            {% for movie in not_liked %}
-
-            <li><a href="/{{ movie.movie_id }}/"> {{ movie.title }}</a></li><br>
-
-            {% endfor %}
-            {% endif %}
-        </ul>
-    </div>
-    <div id="unrelatable">
-        <h1>What's life without a little randomness?</h1>
-        <ul id="random_menu" style="list-style-type:none">
-            {% for movie in random %}
-
-            <li><a href="/{{ movie.movie_id }}/"> {{ movie.title }}</a></li><br>
-
-            {% endfor %}
-        </ul>
-    </div>
+    <!-- <div id="similar-to-not-liked"> -->
+        <!-- <h1>Let some of these surprise you!</h1> -->
+        <!-- <ul id="not_liked_menu" style="list-style-type:none"> -->
+            <!-- {% if not_liked|length == 0 %} -->
+            <!-- Dislike movies to see well received similar movies here (maybe they got it right making these movies!) -->
+            <!-- {% else %} -->
+            <!-- {% for movie in not_liked %} -->
+<!--  -->
+            <!-- <li><a href="/{{ movie.movie_id }}/"> {{ movie.title }}</a></li><br> -->
+<!--  -->
+            <!-- {% endfor %} -->
+            <!-- {% endif %} -->
+        <!-- </ul> -->
+    <!-- </div> -->
+    <!-- <div id="unrelatable"> -->
+        <!-- <h1>What's life without a little randomness?</h1> -->
+        <!-- <ul id="random_menu" style="list-style-type:none"> -->
+            <!-- {% for movie in random %} -->
+<!--  -->
+            <!-- <li><a href="/{{ movie.movie_id }}/"> {{ movie.title }}</a></li><br> -->
+<!--  -->
+            <!-- {% endfor %} -->
+        <!-- </ul> -->
+    <!-- </div> -->
 </body>
 </html>

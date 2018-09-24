@@ -1,4 +1,6 @@
 from django.db import models
+from django import forms
+
 
 # Create your models here.
 class Movie(models.Model):
@@ -32,3 +34,28 @@ class Tag(models.Model):
 class OnlineLink(models.Model):
     movie = models.ForeignKey(Movie)
     imdb_id = models.CharField(max_length=50)
+
+class UserDetails(models.Model):
+    fName = models.CharField(max_length=100,default="noFirstName")
+    lName = models.CharField(max_length=100,default="noLastName")
+    password = models.CharField(max_length=40)
+    email = models.CharField(max_length=150,default="noemail")
+
+class UserRegistrationForm(forms.Form):
+    username = forms.CharField(
+        required = True,
+        label = 'Username',
+        max_length = 50
+    )
+    email = forms.CharField(
+        required = True,
+        label = 'Email',
+        max_length = 100,
+    )
+    password = forms.CharField(
+        required = True,
+        label = 'Password',
+        max_length = 32,
+        widget = forms.PasswordInput()
+    )
+    
