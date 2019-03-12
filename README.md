@@ -4,7 +4,7 @@ A movie recommendation system based on the GroupLens dataset of MovieLens data.
 The dataset contains about 40,000 movies, and around 11,000 of those have tags
 associated with them and could be related to one another.
 
-Movie Time uses these tagged movies to relate them to each other, and presents
+RecommendR uses these tagged movies to relate them to each other, and presents
 random recommendations from the other 29,000 unrelatable movies.
 
 [Screenshots!](https://imgur.com/a/cH3cs)
