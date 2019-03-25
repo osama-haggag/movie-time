@@ -1,0 +1,70 @@
+{% load staticfiles %}
+<html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <title>Welcome</title>
+</head>
+
+<body>
+    <div class="welcomeHead">
+        <h1>Welcome to <span style="font-style: bold;color:#F7D915;">recommendR</span></h1>
+    </div>
+    <div class="categoryContainer">
+        <a href="dashboard.html">
+            <div class="category movieCategory">
+                <p class="categoryName">
+                    <i class="material-icons" style="font-size: 50px;">
+                        movie
+                    </i>
+                    Movies
+                </p>
+            </div>
+        </a>
+        <a href="dashboard">
+            <div class="category  musicCategory">
+                <p class="categoryName">
+                    <i class="material-icons" style="font-size: 50px;">
+                        music_note
+                    </i>
+                    Music</p>
+            </div>
+        </a>
+        <a href="dashboard">
+
+            <div class="category bookCategory">
+                <p class="categoryName">
+                    <i class="material-icons" style="font-size: 50px;">
+                        library_books
+                    </i>
+                    Books
+                </p>
+            </div>
+        </a>
+        <a href="dashboard">
+            <div class="category videoCategory">
+                <p class="categoryName">
+                    <i class="material-icons" style="font-size: 50px;">
+                        videocam
+                    </i>
+                    Videos
+                </p>
+            </div>
+        </a>
+        <a href="dashboard">
+            <div class="category newsmagCategory">
+                <p class="categoryName">
+                    <i class="material-icons" style="font-size: 50px;">
+                        local_library
+                    </i>
+                    News
+                </p>
+            </div>
+        </a>
+    </div>
+</body>
+
+</html>

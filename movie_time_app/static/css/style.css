@@ -1,0 +1,333 @@
+html,body {
+    background-color: #F2F2F2;
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+.header {
+    height: 200px;;
+}
+.logo {
+    color: #492b7b;
+    padding: 20px 36px;
+    float: left;
+}
+.topMenu {
+    list-style-type: none;
+    float: right;
+    margin-top: 14px;
+    padding: 30px;
+    overflow: hidden;
+}
+.topMenu li {
+    float: left;
+}
+.menuList a {
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.menuList .loginSeparator {
+    padding: 0px !important;
+}
+.menuList .login {
+    padding: 0px;
+}
+.menuList .signup {
+    font-weight: bold;
+    padding: 0px 16px 0px 0px;
+}
+.hiW {
+    font-weight: bold;
+    text-decoration: underline !important;
+}
+.getStarted {
+    border-radius: 20px !important;
+    font-weight: bold !important;
+    padding-top: 10px !important;
+    padding-bottom: 14px !important;
+    background-color: #492b7b !important;
+    text-transform: initial !important;
+}
+.welcome-text {
+    margin-top:100px;
+    margin-left:30px;
+    font-size:40px;
+}
+.welcomeContainer{
+    height: 100vh;
+}
+.howContainer {
+    height: 100vh;
+    background-color: #492b7b;
+    padding: 10px;
+}
+.howWorks{
+    margin-top: 140px;
+    text-align: center;
+    width:100%;
+    color:#ffffff;
+    line-height: 10px;
+}
+.howWorks h1{
+    font-size: 50px;
+}
+.steps{
+    height: 150px !important;
+    width:150px !important;
+    border-radius: 50% !important;
+    background-color: white !important;
+    display: inline-block !important;
+    margin:0px 120px !important;
+}
+.stepContainer {
+    margin-top:100px;
+    height: 200px;
+    width:100%;
+    text-align: center;
+}
+.stepDescContainer {
+    width:100%;
+    text-align: center;
+    display: block;
+}
+.stepsText {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 150px;
+    padding: 0px;
+    margin:0px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 80px;
+}
+.stepTable {
+    margin-top:80px;
+    margin: 80px auto 0px auto;
+    text-align: center;
+    width: 80%;
+}
+.firstStep {
+    background-color: #65C0B9 !important;
+}
+.secondStep {
+    background-color: #F7D915 !important;
+}
+.thirdStep {
+    background-color: #2D2727 !important;
+}
+.stepsDesc {
+    color: #ffffff;
+    font-size: 26px;    
+    font-weight: bold;
+}
+.categoryContainer {
+    height: 100vh;
+    background-color: #F7D915;
+    padding: 10px;
+}
+.categoryTitle {
+    margin-top: 80px;
+    text-align: center;
+    width:100%;
+    font-size: 35px;
+    color:#000000;
+    font-weight: 100 !important;
+}
+.catg {
+    background-color: #492b7b !important;
+    height: 180px !important;
+    width: 160px !important; 
+    border-radius: 5% !important;
+    margin:40px 40px 0px 40px;
+}
+.categoryTable {
+    margin: 0px auto;
+    text-align: center;
+    width: 80%;
+}
+.catgName {
+    color: #000000;
+    font-weight: bold;
+    font-size: 22px;
+}
+.viewAll {
+    background-color: #2D2727 !important;
+    border-radius: 20px !important;
+    color: white !important;
+    text-align: center;
+    text-transform: initial !important;
+    font-weight: bold !important;
+}
+.aboutContainer {
+    height: 100vh;
+    background-color: #65C0B9;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.aboutUs {
+    font-weight: bold;
+    margin:auto 50px;
+    font-size: 80px;
+    color:#2c2727;
+}
+.aboutTitle {
+    font-size: 45px;
+    font-weight: 900;
+    color:#492b7b;
+    word-spacing: 3px;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+.writeUs {
+    border-radius: 20px !important;
+    width:160px;
+    background-color: #2c2727 !important;
+    text-transform: initial !important;
+    margin-bottom: 20px;
+    text-align: center !important;
+}
+.aboutUsDesc {
+    position: absolute;
+    text-align: initial;
+    width: 40%;
+    height: 300px;
+    text-align: justify;
+    right: 8%;
+    margin-top:100px;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 500;
+}
+.signupContainer {
+    background-color: #2c2727;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+.loginSubContainer {
+    height: 350px;
+    width: 350px;
+    position: relative;
+    margin:170px 0px 80px 240px;
+    border: solid 4px #65C0B9;
+    border-radius: 5px;
+    text-align: center;
+}
+.inputField {
+    border-radius: 25px;
+    border: 0px none;
+    padding: 20px; 
+    width: 200px;
+    font-weight: 600;
+    height: 15px;
+    font-size: 20px;    
+    outline: none;
+    color:#fff;
+}
+.inputField::placeholder {
+    color:#fff;
+    opacity: 0.5;
+}
+.userName {
+    margin-top: 20px;
+    background: #65C0B9;
+}
+.passWord {
+    margin-top: 10px;
+    background: #65C0B9;
+}
+.firstName {
+    margin-top: 20px;
+    width: 170px;
+    background: #F7D915;
+}
+.lastName {
+    width: 170px;
+    margin-top: 10px;
+    background: #F7D915;
+}
+.emailAddress {
+    width: 300px;
+    margin-top: 10px;
+    background: #F7D915;
+}
+.usrpass {
+    width: 280px;
+    margin-top: 10px;
+    background: #F7D915;
+}
+.confirmusrpass {
+    width: 280px;
+    margin-top: 10px;
+    background: #F7D915;
+}
+.loginBtn{
+    color:#65C0B9 !important;
+    border: solid 2px #65C0B9 !important;
+    background-color: transparent;
+    position: absolute;
+    border-radius: 20px;
+    height: 25px;
+    width: 80px;
+    right: 15px;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 23px;
+    bottom: 20px;
+}
+.signupBtn {
+    color:#F7D915 !important;
+    border: solid 2px #F7D915 !important;
+    background-color: transparent;
+    position: absolute;
+    border-radius: 20px;
+    height: 25px;
+    width: 80px;
+    right: 15px;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 23px;
+    bottom: 20px;
+}
+.signupBtn:hover {
+    background-color:#F7D915;
+    color: #fff !important;
+}
+.loginBtn:hover {
+    background-color:#65C0B9;
+    color: #fff !important;
+}
+.loginHead {
+    margin-top:40px !important;
+    font-weight: 400;
+    margin:auto 50px;
+    font-size: 40px;
+    color:#ffffff;
+}
+.signUpHead {
+    font-weight: 400;
+    font-size: 60px;
+    color:#ffffff;
+    margin:0px 0px 10px 0px;
+    text-align: left;
+    font-weight: 800;
+}
+.signupuserContainer {
+    height: 600px;
+    width: 550px;
+    margin:30px 0px 0px 80px;
+    text-align: center;
+}
+.signupsubcontainer {
+    height: 450px;
+    width: 500px;
+    background:  #492b7b;
+    border-radius: 5px;
+    text-align: left;
+    padding:20px;
+    position: relative;
+}
