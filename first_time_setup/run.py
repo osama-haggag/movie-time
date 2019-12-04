@@ -1,28 +1,72 @@
 import argparse
 import os
 import zipfile
+import re
+from functools import reduce
 
 import pandas as pd
+import numpy as np
 import requests
 import sqlite3
 from tqdm import tqdm
 
-from first_time_setup.downloads import path
-from first_time_setup.movie_similarity import movie_to_movie
-from movie_time.settings import BASE_DIR
+from downloads import path as path_to_downloads
+from movie_similarity import movie_to_movie
+#from movie_time.settings import BASE_DIR
 
+RELEVANCE_CUTOFF = 0.3
 LINK_TO_MOVIE_LENS_DATASET = "http://files.grouplens.org/datasets/movielens/ml-latest.zip"
-DEFAULT_PATH_TO_DB = os.path.join(BASE_DIR, 'db.sqlite3')
+DEFAULT_PATH_TO_DB = os.path.join(os.getcwd(), 'db.sqlite3')
 
 
-def _load_dataset_from_local_path(input_dataset_path):
-    movie_ratings = pd.read_csv(os.path.join(input_dataset_path, 'ratings.csv'), usecols=['movieId', 'rating'])
-    genome_scores = pd.read_csv(os.path.join(input_dataset_path, 'genome-scores.csv'))
-    genome_tags = pd.read_csv(os.path.join(input_dataset_path, 'genome-tags.csv'))
-    movie_names = pd.read_csv(os.path.join(input_dataset_path, 'movies.csv'))
-    links = pd.read_csv(os.path.join(input_dataset_path, 'links.csv'))
+def _get_avg_movie_rating(dataset_path):
+    movie_ratings = pd.read_csv(os.path.join(dataset_path, 'ratings.csv'), usecols=['movieId', 'rating'])
+    avg_ratings = movie_ratings \
+        .groupby('movieId')['rating'] \
+        .agg(rating_mean='mean', rating_median='median', rating_std='std', num_ratings='size')\
+        .reset_index()
+
+    del movie_ratings
+    return avg_ratings
+
+
+def _concatenate_tags_of_movie(tags):
+    tags_as_str = '; '.join(set(tags))
+    return tags_as_str
+
+
+def _get_movie_tags(dataset_path):
+    genome_scores = pd.read_csv(os.path.join(dataset_path, 'genome-scores.csv'))
+    genome_tags = pd.read_csv(os.path.join(dataset_path, 'genome-tags.csv'))
     movie_tags_as_text = pd.merge(genome_scores, genome_tags, on='tagId')[['movieId', 'tag', 'relevance']]
-    return genome_scores, genome_tags, movie_names, movie_ratings, links, movie_tags_as_text
+    top_tags_per_movie = movie_tags_as_text[movie_tags_as_text.relevance > RELEVANCE_CUTOFF]\
+        .sort_values(by='relevance', ascending=False)\
+        .groupby('movieId')['tag']\
+        .agg(movie_tags=_concatenate_tags_of_movie)
+
+    del movie_tags_as_text, genome_scores, genome_tags
+    return top_tags_per_movie
+
+
+def _extract_year_from_movie_title(movie_title):
+    matches = re.findall(r'\d{4}', movie_title)
+    if len(matches) > 1:
+        return int(matches[-1])
+    if len(matches) < 1:
+        return np.nan
+    return int(matches[0])
+
+
+def _collect_data_from_local_path(dataset_path):
+    avg_ratings = _get_avg_movie_rating(dataset_path)
+    movie_tags = _get_movie_tags(dataset_path)
+    movie_names = pd.read_csv(os.path.join(dataset_path, 'movies.csv'))
+    links = pd.read_csv(os.path.join(dataset_path, 'links.csv'))
+
+    all_dfs = [movie_names, avg_ratings, links, movie_tags]
+    dataset = reduce(lambda left, right: pd.merge(left, right, on='movieId', how='left'), all_dfs)
+    dataset['year'] = dataset.title.apply(_extract_year_from_movie_title)
+    return dataset
 
 
 def _download_data(download_path):
@@ -42,17 +86,17 @@ def _extract_dataset_from_zip(download_path):
 
 def _download_dataset():
     print("downloading dataset...")
-    download_path = str(path)
-    _download_data(download_path)
-    _extract_dataset_from_zip(download_path)
-    dataset = _load_dataset_from_local_path(download_path)
+    path_as_string = str(path_to_downloads)
+    _download_data(path_as_string)
+    _extract_dataset_from_zip(path_as_string)
+    dataset = _collect_data_from_local_path(path_as_string)
     return dataset
 
 
-def _load_dataset(input_dataset_path):
+def _load_dataset(dataset_path):
     print("loading dataset...")
-    if input_dataset_path is not None:
-        dataset = _load_dataset_from_local_path(input_dataset_path)
+    if dataset_path is not None:
+        dataset = _collect_data_from_local_path(dataset_path)
     else:
         dataset = _download_dataset()
     return dataset
@@ -90,8 +134,8 @@ def _write_to_db_with_progress_bar(df, table_name, db_connection):
             pbar.update(step)
 
 
-def _populate_database_tables(db_connection, movie_to_movie_similarity, dataset_with_tags,
-                              unrelatable_movies, links_to_imdb, movie_tags_as_text):
+def _populate_database_tables(dataset, movie_to_movie_similarity, database_path):
+    db_connection = _connect_to_database(database_path)
     with_tags, without_tags, links, tags = _conform_to_db_model(dataset_with_tags, unrelatable_movies,
                                                                 links_to_imdb, movie_tags_as_text)
 
@@ -111,13 +155,10 @@ def _populate_database_tables(db_connection, movie_to_movie_similarity, dataset_
     _write_to_db_with_progress_bar(movie_to_movie_similarity, 'movie_time_app_similarity', db_connection)
 
 
-def main(input_dataset_path, database_path):
-    genome_scores, genome_tags, movie_names, movie_ratings, links_to_imdb, movie_tags_as_text = _load_dataset(input_dataset_path)
-    db_connection = _connect_to_database(database_path)
-    movie_to_movie_similarity, dataset_with_tags, unrelatable_movies = movie_to_movie(genome_scores, genome_tags,
-                                                                                      movie_names, movie_ratings)
-    _populate_database_tables(db_connection, movie_to_movie_similarity, dataset_with_tags,
-                              unrelatable_movies, links_to_imdb, movie_tags_as_text)
+def main(dataset_path, database_path):
+    dataset = _load_dataset(dataset_path)
+    movie_to_movie_similarity = movie_to_movie(dataset)
+    _populate_database_tables(movie_to_movie_similarity, dataset, database_path)
 
 
 if __name__ == "__main__":
