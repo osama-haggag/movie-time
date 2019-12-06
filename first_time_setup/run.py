@@ -11,8 +11,8 @@ import sqlite3
 from tqdm import tqdm
 
 from downloads import path as path_to_downloads
-from movie_similarity import movie_to_movie
-#from movie_time.settings import BASE_DIR
+from movie_similarity import compute_movie_to_movie_similarity
+
 
 RELEVANCE_CUTOFF = 0.3
 LINK_TO_MOVIE_LENS_DATASET = "http://files.grouplens.org/datasets/movielens/ml-latest.zip"
@@ -157,7 +157,7 @@ def _populate_database_tables(dataset, movie_to_movie_similarity, database_path)
 
 def main(dataset_path, database_path):
     dataset = _load_dataset(dataset_path)
-    movie_to_movie_similarity = movie_to_movie(dataset)
+    movie_to_movie_similarity = compute_movie_to_movie_similarity(dataset)
     _populate_database_tables(movie_to_movie_similarity, dataset, database_path)
 
 
