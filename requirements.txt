@@ -1,7 +1,7 @@
-Django
-pandas
-Pillow
-scikit-learn
-scipy
-requests
-tqdm
+pandas==1.0.3
+flask==1.1.2
+Pillow==7.1.2
+scikit-learn==0.23.1
+scipy==1.4.1
+requests==2.23.0
+tqdm==4.46.0
