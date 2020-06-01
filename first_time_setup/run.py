@@ -1,8 +1,8 @@
 import argparse
 
-from .data_loader import load_dataset
-from .movie_similarity import compute_movie_to_movie_similarity
-from .database_utils import create_and_populate_database
+from first_time_setup.data_loader import load_dataset
+from first_time_setup.movie_similarity import compute_movie_to_movie_similarity
+from first_time_setup.database import create_and_populate_database
 
 
 def main(dataset_path, database_path):

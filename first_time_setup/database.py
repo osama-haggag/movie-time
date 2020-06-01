@@ -1,18 +1,8 @@
 import os
 
-import sqlite3
-
 from tqdm import tqdm
 
-
-DEFAULT_PATH_TO_DB = os.path.join(os.getcwd(), 'db.sqlite3')
-
-
-def _connect_to_database(database_path):
-    if database_path is None:
-        database_path = DEFAULT_PATH_TO_DB
-    db = sqlite3.connect(database_path)
-    return db
+from flask_server.utils.database import get_database_connection
 
 
 def _conform_to_db_model(dataset_with_tags, unrelatable_movies, links_to_imdb, movie_tags_as_text):
@@ -89,7 +79,7 @@ def _create_tables_if_not_exist(db_connection):
         """
         CREATE TABLE IF NOT EXISTS user_likes (
             movie_id INTEGER PRIMARY KEY,
-            movie_liked INTEGER         
+            movie_liked INTEGER NOT NULL        
         ) 
         """
     ).fetchall()
@@ -113,7 +103,7 @@ def create_and_populate_database(dataset, movie_to_movie_similarity, database_pa
     unrelatable_movies = dataset_prepared[~has_movie_tag]
 
     # CREATE TABLE WITH PKs BEFORE WRITING
-    db_connection = _connect_to_database(database_path)
+    db_connection = get_database_connection(database_path)
 
     _create_tables_if_not_exist(db_connection)
 
