@@ -8,10 +8,11 @@ import numpy as np
 import requests
 from tqdm import tqdm
 
-from .downloads import path as path_to_downloads
+from movie_time.first_time_setup.downloads import path as path_to_downloads
 
 LINK_TO_MOVIE_LENS_DATASET = "http://files.grouplens.org/datasets/movielens/ml-latest.zip"
 RELEVANCE_CUTOFF = 0.3
+
 
 def _get_avg_movie_rating(dataset_path):
     movie_ratings = pd.read_csv(os.path.join(dataset_path, 'ratings.csv'), usecols=['movieId', 'rating'])

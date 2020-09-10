@@ -1,0 +1,1 @@
+PYTHONPATH=. python movie_time/first_time_setup/run.py -i "${1}" -d movie_time/flask_server/movie-time.db

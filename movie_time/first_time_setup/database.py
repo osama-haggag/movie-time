@@ -1,8 +1,11 @@
-import os
+import sqlite3
 
 from tqdm import tqdm
 
-from flask_server.utils.database import get_database_connection
+
+def _get_database_connection(database_path):
+    connection = sqlite3.connect(database_path)
+    return connection
 
 
 def _conform_to_db_model(dataset_with_tags, unrelatable_movies, links_to_imdb, movie_tags_as_text):
@@ -103,7 +106,7 @@ def create_and_populate_database(dataset, movie_to_movie_similarity, database_pa
     unrelatable_movies = dataset_prepared[~has_movie_tag]
 
     # CREATE TABLE WITH PKs BEFORE WRITING
-    db_connection = get_database_connection(database_path)
+    db_connection = _get_database_connection(database_path)
 
     _create_tables_if_not_exist(db_connection)
 

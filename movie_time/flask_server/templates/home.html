@@ -1,17 +1,10 @@
-{% load staticfiles %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
 </head>
 <body>
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
-
     <div id="logo-header" align="center">
-        <div id="img-logo" align="center">
-            <img src="{% static 'logo.png' %}">
-        </div>
         <div id="search-bar" align="center">
             <form id="searchform" method="get" accept-charset="utf-8" action="/search/">
                 <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Look for a movie">
