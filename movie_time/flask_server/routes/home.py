@@ -51,7 +51,15 @@ def _load_watched_movies():
 
 
 def _recommend_similar_to_liked_movies(all_watched_movies):
-    pass
+    watched_liked_movies = UserLikes.query\
+        .filter(UserLikes.movie_liked == 1)\
+        .with_entities('movie_id')
+        #.all()
+
+    liked_relatable_movies = RelatableMovie.query\
+        .filter(
+            RelatableMovie.movie_id.in_(UserLikes.query.filter(UserLikes.movie_liked == 1).with_entities('movie_id'))
+        )
 
 
 def _recommend_similar_to_disliked_movies(all_watched_movies):
@@ -65,7 +73,7 @@ def _recommend_movies_from_unrelatable_liked(all_watched_movies):
 @home_bp.route('/')
 def page():
     #all_watched_movies = _load_watched_movies()
-    all_watched_movies = UserLikes.query.first()
+    all_watched_movies = UserLikes.query.all()
     print(all_watched_movies)
     recommendations_similar_to_liked = _recommend_similar_to_liked_movies(all_watched_movies)
     recommendations_similar_to_disliked = _recommend_similar_to_disliked_movies(all_watched_movies)
